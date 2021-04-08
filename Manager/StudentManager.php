@@ -35,4 +35,21 @@ class StudentManager {
         }
         return $students;
     }
+
+    /**
+     * Fetch provided student (id).
+     * @param int $id
+     * @return Student
+     */
+    public function getStudent(int $id): Student {
+        $request = DB::getInstance()->prepare("SELECT * FROM student WHERE  id = :id");
+        $request->bindValue(':id', $id);
+        $request->execute();
+        $student_data = $request->fetch();
+        $student = new Student();
+        if ($student_data) {
+
+        }
+        return $student;
+    }
 }

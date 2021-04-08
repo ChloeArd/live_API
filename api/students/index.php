@@ -16,26 +16,52 @@ $manager = new StudentManager();
 
 switch ($requestType) {
     case 'GET':
-        $response = [];
-        // Obtention des students.
-        $data = $manager->getStudents();
-        foreach ($data as $student) {
-            /* @var Student $student */
-            $response[] = [
-                'id' => $student->getId(),
-                'firstname' => $student->getFirstName(),
-                'lastname' => $student->getLastName(),
-                'school' => [
-                    'id' => $student->getSchool()->getId(), //fonction chainée
-                    'name' => $student->getSchool()->getName(),
-                ],
-            ];
+        if (isset($_GET['id'])) {
+            echo 'Ca marche!';
+            echo getStudent($manager,intval($_GET['id']));
         }
-        //Envoie de la réponse (on encode notre tableau au format json).
-        echo json_encode($response);
+        else {
+            echo getStudents($manager);
+        }
         break;
     default:
         break;
+}
+
+/**
+ * Return the students list.
+ * @param StudentManager $manager
+ * @return false|string
+ */
+function getStudents(studentManager $manager): string {
+    $response = [];
+    // Obtention des students.
+    $data = $manager->getStudents();
+    foreach ($data as $student) {
+        /* @var Student $student */
+        $response[] = [
+            'id' => $student->getId(),
+            'firstname' => $student->getFirstName(),
+            'lastname' => $student->getLastName(),
+            'school' => [
+                'id' => $student->getSchool()->getId(), //fonction chainée
+                'name' => $student->getSchool()->getName(),
+            ],
+        ];
+    }
+    //Envoie de la réponse (on encode notre tableau au format json).
+    return json_encode($response);
+}
+
+
+
+/**
+ * Return only one student.
+ * @param StudentManager $manager
+ * @param int $id
+ */
+function getStudent(StudentManager $manager, int $id): string {
+    $student = $manager->getStudent($id);
 }
 
 exit;

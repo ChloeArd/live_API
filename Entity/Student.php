@@ -8,11 +8,11 @@ use App\Entity\School;
 class Student {
 
     private ?int $id;
-    private string $firstname;
-    private string $lastname;
+    private ?string $firstname;
+    private ?string $lastname;
     private ?School $school;
 
-    public function __construct(string $firstname, string $lastname, School $school = null, $id = null) {
+    public function __construct(string $firstname = null, string $lastname = null, School $school = null, $id = null) {
         $this->firstname = $firstname;
         $this->id = $id;
         $this->lastname = $lastname;
