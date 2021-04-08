@@ -18,42 +18,19 @@ switch ($requestType) {
     case 'GET':
         $response = [];
         // Obtention des students.
-    $data = $manager->getStudents();
-    foreach ($data as $student) {
-        /* @var Student $student */
-        $response[] = [
-            'id' => $student->getId(),
-            'firstname' => $student->getFirstName(),
-            'lastname' => $student->getLastName(),
-            'school' => [
-                'id' => $student->getSchool()->getId(), //fonction chainée
-                'name' => $student->getSchool()->getName(),
-            ],
-        ];
-    }
-        /**
-         [
-            {
-               'id' : 5,
-               'firstname' : 'le first name',
-               'lastname' : 'le last name',
-               'school' : {
-                    'id' : 8,
-                    'name' : 'UpTo grande école du numérique'
-               }
-            },
-            {
-               'id" : 6,
-               'firstname' : 'deuxième firstname',
-               'lastname' : 'le last name',
-               'school' : {
-                    'id' : 8,
-                    'name' : 'UpTo grande école du numérique'
-               }
-            }
-        ]
-         */
-
+        $data = $manager->getStudents();
+        foreach ($data as $student) {
+            /* @var Student $student */
+            $response[] = [
+                'id' => $student->getId(),
+                'firstname' => $student->getFirstName(),
+                'lastname' => $student->getLastName(),
+                'school' => [
+                    'id' => $student->getSchool()->getId(), //fonction chainée
+                    'name' => $student->getSchool()->getName(),
+                ],
+            ];
+        }
         //Envoie de la réponse (on encode notre tableau au format json).
         echo json_encode($response);
         break;
@@ -62,3 +39,27 @@ switch ($requestType) {
 }
 
 exit;
+
+/**
+ * Format attendu pour get /api/students
+[
+    {
+        'id' : 5,
+        'firstname' : 'le first name',
+        'lastname' : 'le last name',
+        'school' : {
+            'id' : 8,
+            'name' : 'UpTo grande école du numérique'
+        }
+    },
+    {
+        'id" : 6,
+        'firstname' : 'deuxième firstname',
+        'lastname' : 'le last name',
+        'school' : {
+            'id' : 8,
+            'name' : 'UpTo grande école du numérique'
+        }
+    }
+]
+ */
