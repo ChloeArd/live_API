@@ -5,7 +5,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/Classes/DB.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Entity/School.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Entity/Student.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Manager/StudentManager.php';
-
+require_once $_SERVER['DOCUMENT_ROOT'] . '/Manager/SchoolManager.php';
 use App\Entity\Student;
 use App\Manager\StudentManager;
 
@@ -17,7 +17,6 @@ $manager = new StudentManager();
 switch ($requestType) {
     case 'GET':
         if (isset($_GET['id'])) {
-            echo 'Ca marche!';
             echo getStudent($manager,intval($_GET['id']));
         }
         else {
@@ -53,15 +52,24 @@ function getStudents(studentManager $manager): string {
     return json_encode($response);
 }
 
-
-
 /**
  * Return only one student.
  * @param StudentManager $manager
  * @param int $id
+ * @return string
  */
 function getStudent(StudentManager $manager, int $id): string {
     $student = $manager->getStudent($id);
+    $response = [
+        'id' => $student->getId(),
+        'firstname' => $student->getFirstName(),
+        'lastname' => $student->getLastName(),
+        'school' => [
+            'id' => $student->getSchool()->getId(), //fonction chainée
+            'name' => $student->getSchool()->getName(),
+        ],
+    ];
+    return json_encode($response);
 }
 
 exit;

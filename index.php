@@ -3,7 +3,12 @@
  * Méthode HTTP         Endpoint            Action
  * ------------         --------            ------
  * GET                  /api/students       Liste des étudiants
- * (récupérer que des informations)
+ * GET                  /api/students?id    Visualisation d'un seul étudiant
+ *
+ * POST                 /api/students        Ajoute un nouvel étudiant
+ * PUT                  /api/students?id     Modifie un étudiant
+ * DELETE               /api/student?id      Supprime un étudiant
+ *
  */
 ?>
 <!doctype html>
@@ -35,6 +40,9 @@
 
             </tbody>
         </table>
+        <div style="display: none" id="student-content">
+
+        </div>
     </div>
 </div>
 

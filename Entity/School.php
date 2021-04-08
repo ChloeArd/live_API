@@ -5,9 +5,9 @@ namespace App\Entity;
 class School {
 
     private ?int $id;
-    private string $name;
+    private ?string $name;
 
-    public function __construct(string $name, $id = null) {
+    public function __construct(string $name = null, $id = null) {
         $this->name = $name;
         $this->id = $id;
     }

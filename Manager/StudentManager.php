@@ -5,8 +5,18 @@ namespace App\Manager;
 use App\Classes\DB;
 use App\Entity\Student;
 use App\Entity\School;
+use App\Manager\SchoolManager;
 
 class StudentManager {
+
+    private SchoolManager $schoolManager;
+
+    /**
+     * StudentManager constructor.
+     */
+    public function __construct() {
+        $this->schoolManager = new SchoolManager();
+    }
 
     /**
      * Return a list of students.
@@ -20,17 +30,8 @@ class StudentManager {
 
         if($students_response) {
             foreach($students_response as $data) {
-                $request = DB::getInstance()->prepare("SELECT * FROM school WHERE id=:id");
-                $request->bindValue(':id', $data['school_fk']);
-                $request->execute();
-                $school_data = $request->fetch();
-                if ($school_data) {
-                    $school = new School($school_data['name'], $school_data['id']);
-                    $students[] = new Student($data['firstname'], $data['lastname'], $school, $data['id']);
-                }
-                else {
-                    return [];
-                }
+                $school = $this->schoolManager->getSchool($data['school_fk']);
+                $students[] = new Student($data['firstname'], $data['lastname'], $school, $data['id']);
             }
         }
         return $students;
@@ -48,7 +49,11 @@ class StudentManager {
         $student_data = $request->fetch();
         $student = new Student();
         if ($student_data) {
-
+            $student->setId($student_data['id']);
+            $student->setLastName($student_data['lastname']);
+            $student->setFirstName($student_data['firstname']);
+            $school = $this->schoolManager->getSchool($student_data['school_fk']);
+            $student->setSchool($school);
         }
         return $student;
     }

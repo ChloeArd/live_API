@@ -39,7 +39,21 @@ studentListButton.addEventListener('click', function(e) {
                 // On annule l'action par défaut.
                 e.preventDefault();
                 studentXhr.onload = function () {
-                    console.log(studentXhr.responseText);
+                    const student = JSON.parse(studentXhr.responseText);
+                    const divStudent = document.getElementById('student-content');
+                    divStudent.innerHTML = `
+                        <div class="card w-75 shadow-lg p-3 mb-5 bg-white roudded">
+                            <h5 class="card-header">Informations de l'élève</h5>
+                          <div class="card-body">
+                            <h5 class="card-title">${student.firstname} ${student.lastname}</h5>
+                            <p class="card-text">ID : ${student.id}</p>
+                            <p class="card-text">Ecole : ${student.school.name}</p>
+                            <a href="#" class="btn btn-primary">Supprimer</a>
+                            <a href="#" class="btn btn-primary">Modifier</a>
+                          </div>
+                        </div>
+                    `;
+                    divStudent.style.display = "block";
                 }
 
                 studentXhr.open('GET', this.href);
