@@ -2,10 +2,10 @@
 
 namespace App\Manager;
 
-use APP\Classes\DB;
+use App\Classes\DB;
 use App\Entity\School;
 
-Class SchoolManager {
+class SchoolManager {
 
     /**
      * Return a school based on id.
@@ -23,5 +23,24 @@ Class SchoolManager {
             $school->setName($school_data['name']);
         }
         return $school;
+    }
+
+    /**
+     * Return a schools list.
+     * @return array
+     */
+    public function getSchools(): array {
+        $schools = [];
+        $request = DB::getInstance()->prepare("SELECT * FROM school");
+        $request->execute();
+        $schools_response = $request->fetchAll();
+
+        if($schools_response) {
+            foreach($schools_response as $data) {
+                $schools[] = new School($data['name'], $data['id']);
+            }
+        }
+
+        return $schools;
     }
 }
