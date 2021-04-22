@@ -15,7 +15,7 @@ xhr.onload = function() {
     });
 }
 
-xhr.open('GET', '/api/schools');
+xhr.open('GET', '/api/schools.php');
 xhr.send();
 
 /**
@@ -57,7 +57,7 @@ submitButton.addEventListener('click', function(e) {
             'school': school
         };
 
-        xhr.open('POST', '/api/students');
+        xhr.open('POST', '/api/students.php');
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(studentData));
     }
@@ -84,7 +84,7 @@ studentListButton.addEventListener('click', function(e) {
                     <td>${student.lastname}</td>
                     <td>${student.school.name}</td>
                     <td>
-                        <a class="get-student" href="/api/students?id=${student.id}">
+                        <a class="get-student" href="/api/students.php?id=${student.id}">
                             <i class="fas fa-eye"></i>
                         </a>
                     </td>
@@ -127,6 +127,6 @@ studentListButton.addEventListener('click', function(e) {
         }
     };
 
-    xhr.open('GET', '/api/students');
+    xhr.open('GET', '/api/students.php');
     xhr.send();
 });
